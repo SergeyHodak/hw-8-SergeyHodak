@@ -86,6 +86,7 @@ class Test4 {
             String planet = planets.get(i);
             System.out.println(planet); //"Earth" \n "Mars" \n "Venus"
         }
+        System.out.println(planets.size());
     }
 }
 /*

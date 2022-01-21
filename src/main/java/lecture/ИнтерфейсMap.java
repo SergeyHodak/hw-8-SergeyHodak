@@ -1,8 +1,6 @@
 package lecture;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ИнтерфейсMap {}
 
@@ -114,7 +112,8 @@ class MapTest {
 /*
 
     EnumSet and EnumMap#
-        Мы можем хранить enum как ключи или значения в коллекциях:
+    Мы можем хранить enum как ключи или значения в коллекциях:
+*/
 
 enum Season {
     Winter,
@@ -126,21 +125,27 @@ enum Season {
 class SeasonTest {
     public static void main(String[] args) {
         Set<Season> seasons = new HashSet<>();
-        seasons.put(Season.Winter);
+        seasons.add(Season.Winter); seasons.add(Season.Spring);
 
         Map<Season, String> descriptions = new HashMap<>();
-        descriptions.put(Seasons.Winter, "Winter is coming");
+        descriptions.put(Season.Winter, "Winter is coming");
+        System.out.println(seasons); //[Winter]
+        System.out.println(descriptions); //{Winter=Winter is coming}
     }
 }
-    Но для более эффективной работы можно использовать специальные коллекции для быстрой работы с enum.
-
-        Это EnumSet и EnumMap.
-
-        EnumSet<DeveloperLevel> experiencedLevels =
-        EnumSet.of(DeveloperLevel.MIDDLE, DeveloperLevel.SENIOR);
-
-        EnumMap<DeveloperLevel, List<Developer>> developers =
-        new EnumMap<DeveloperLevel, List<Developer>>(DeveloperLevel.class);
-        ПОЛЕЗНО
-        Использовать эти коллекции имеет смысл если быстродействие критично. Обычно хватает использования обычных коллекций
+/*
+Но для более эффективной работы можно использовать специальные коллекции для быстрой работы с enum.
+Это EnumSet и EnumMap.
+*/
+//class Test12 {
+//    public static void main(String[] args) {
+//        EnumSet<DeveloperLevel> experiencedLevels =
+//                new EnumSet.of(DeveloperLevel.MIDDLE, DeveloperLevel.SENIOR);
+//        EnumMap<DeveloperLevel, List<Developer>> developers =
+//                new EnumMap<DeveloperLevel, List<Developer>>(DeveloperLevel.class);
+//    }
+//}
+/*
+    ПОЛЕЗНО
+    Использовать эти коллекции имеет смысл если быстродействие критично. Обычно хватает использования обычных коллекций
 */
