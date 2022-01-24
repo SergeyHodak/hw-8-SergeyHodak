@@ -15,7 +15,7 @@ package hw8v1;
     get(Object key) возвращает значение(Object value) по ключу
  */
 
-import java.util.Arrays;
+//TODO видеоролик, который помог понять, чего нужно достичь, при решении этой задачи https://youtu.be/DpHI6yRT6Es
 
 public class MyHashMap<K, V> {
     private Node[] table = new Node[16]; // массив, по умолчанию из 16 пустых нодов
