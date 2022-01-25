@@ -18,9 +18,10 @@ package hw8v1;
 //TODO видеоролик, который помог понять, чего нужно достичь, при решении этой задачи https://youtu.be/DpHI6yRT6Es
 
 public class MyHashMap<K, V> {
-    private Node<K, V>[] table = new Node[16]; // массив, по умолчанию из 16 пустых нодов
+    private static final int CAPACITY = 16; // базовая емкость массива из корзин
     private static final int BASKET_SIZE = 8; // базовое значение объема корзин
-    private static final float FULLNESS = 75f; // заполненность, барьер для сжатия и расширений количества корзин в массиве
+    private static final float LOAD_FACTOR = 75f; // заполненность, барьер для сжатия и расширений количества корзин в массиве 75%
+    private Node<K, V>[] table = new Node[CAPACITY]; // массив, по умолчанию из 16 пустых нодов(корзин)
 
     static class Node<K, V> { // клас создающий ноды
         final int hash; // хеш текущего элемента
@@ -60,7 +61,7 @@ public class MyHashMap<K, V> {
                 nexts.next = new Node<K, V>(hash, key, value, null); // создаем новую ноду, и отправляем на нее ссылку
             }
 
-            if(count == BASKET_SIZE || 100f/(table.length * BASKET_SIZE) * size() >= FULLNESS){ // если в затронутой корзине уже 8 нодов, или коллекция заполнена на 75%+
+            if(count == BASKET_SIZE || 100f/(table.length * BASKET_SIZE) * size() >= LOAD_FACTOR){ // если в затронутой корзине уже 8 нодов, или коллекция заполнена на 75%+
                 collectionExpansion(table.length * 2); // расширить коллекцию в 2 раза
             }
         }
@@ -118,7 +119,7 @@ public class MyHashMap<K, V> {
         Node<K, V> previousNode = null; // хранилище для предыдущей ноды
         if (removable.getKey() == key) { // если ключ ноды совпадает с удаляемым
             table[buckets] = removable.next; // шапкой корзины станет не первый, а второй элемент
-            if(100f/(table.length * BASKET_SIZE) * size() < FULLNESS){ // если коллекция заполнена на x < 75%
+            if(100f/(table.length * BASKET_SIZE) * size() < LOAD_FACTOR){ // если коллекция заполнена на x < 75%
                 collectionExpansion(table.length / 2); // сжать коллекцию в 2 раза
             }
             return; // прекратить выполнение метода
@@ -128,7 +129,7 @@ public class MyHashMap<K, V> {
             removable = removable.next; // перешагнуть на следующую ноду
             if (removable.getKey() == key) { // если ключ ноды совпадает с удаляемым
                 previousNode.next = removable.next; // в предыдущей ноде изменить ссылку через одну ноду
-                if(100f/(table.length * BASKET_SIZE) * size() < FULLNESS){ // если коллекция заполнена на x < 75%
+                if(100f/(table.length * BASKET_SIZE) * size() < LOAD_FACTOR){ // если коллекция заполнена на x < 75%
                     collectionExpansion(table.length / 2); // сжать коллекцию в 2 раза
                 }
                 return; // прекратить выполнение метода
@@ -144,7 +145,7 @@ public class MyHashMap<K, V> {
     }
 
     public void clear() { // очищает коллекцию
-        table = new Node[16]; // присвоить пустую коллекцию
+        table = new Node[CAPACITY]; // присвоить базовую пустую коллекцию
     }
 
     public int size() { // возвращает размер коллекции
